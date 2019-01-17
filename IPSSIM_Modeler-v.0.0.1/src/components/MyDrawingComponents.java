@@ -1,8 +1,11 @@
 package components;
 
+import java.awt.Color;
+import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
@@ -17,10 +20,13 @@ public class MyDrawingComponents extends JComponent {
 	private String myShape = "";
 	private Rectangle myRectangle = null;
 	private boolean status = false;
-	
+	private Color drawColor = Color.BLACK;
+	private ArrayList<Point> rectCorners = new ArrayList<Point>();
 	public void setStatus(boolean st) {status =st;}
 	public boolean getStatus() {return status;}
 	
+	public void setDrawColor(Color c) {drawColor = c;}
+	public Color getDrawColor() {return drawColor;}
 	public Rectangle getRectangle() {
 		return myRectangle;
 	}
@@ -28,9 +34,19 @@ public class MyDrawingComponents extends JComponent {
 	public String getShape() {
 		return myShape;
 	}
+	
+	public ArrayList<Point> getCorners(){
+		return rectCorners;
+		
+	}
 	public MyDrawingComponents(Rectangle r) {
 		myShape = "rectangle";
 		myRectangle = r;
+		rectCorners.add(new Point(r.x,r.y));
+		rectCorners.add(new Point(r.x,r.y+r.height));
+		rectCorners.add(new Point(r.x+r.width,r.y+r.height));
+		rectCorners.add(new Point(r.x+ r.width,r.y));
+		
 		this.addMouseListener(new MouseListener() {
 			
 			@Override

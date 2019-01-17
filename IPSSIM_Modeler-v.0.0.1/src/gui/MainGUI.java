@@ -23,8 +23,8 @@ public class MainGUI extends JFrame {
 		NumberFormat nf = NumberFormat.getInstance();
 		NumberFormatter formatter = new NumberFormatter(nf);
 		formatter.setValueClass(Integer.class);
-		formatter.setMinimum(0);
-		formatter.setMaximum(1000);
+		formatter.setMinimum(1);
+		formatter.setMaximum(1001);
 		formatter.setAllowsInvalid(false);
 		formatter.setCommitsOnValidEdit(true);
 		cp.add(new JLabel("X Elements:"));
