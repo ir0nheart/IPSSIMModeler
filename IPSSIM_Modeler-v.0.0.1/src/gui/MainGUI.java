@@ -3,6 +3,8 @@ package gui;
 import javax.swing.*;
 import javax.swing.text.NumberFormatter;
 
+import db.InfoModel;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.text.NumberFormat;
@@ -12,13 +14,16 @@ public class MainGUI extends JFrame {
 	 */
 	private static final long serialVersionUID = -2328834943343699540L;
 	public MainGUI() {
+		modeldb = InfoModel.getInstance();
+		modeldb.setMeshType("Fishnet");
+		modeldb.setMeshDimension("2D");
+		
 		initializeComponents();	
 	}
 	
 	private void initializeComponents() {
 		Container cp = getContentPane();
 		cp.setLayout(new FlowLayout());
-		
 		//Add A Label
 		NumberFormat nf = NumberFormat.getInstance();
 		NumberFormatter formatter = new NumberFormatter(nf);
@@ -50,8 +55,8 @@ public class MainGUI extends JFrame {
 			public void actionPerformed(ActionEvent evt) {
 				//++Count;
 				//tfCount.setText(Count + "");
-				xElements = Integer.valueOf(xElementsTxt.getText());
-				yElements = Integer.valueOf(yElementsTxt.getText());
+				modeldb.setFishnet_x(Integer.valueOf(xElementsTxt.getText()));
+				modeldb.setFishnet_y(Integer.valueOf(yElementsTxt.getText()));
 				btnMesh.setEnabled(false);
 			}
 		});
@@ -172,17 +177,14 @@ public class MainGUI extends JFrame {
 
 	
 	// Parameters and Variables
-	private JTextField tfCount;
 	private JTextField xElementsTxt;
 	private JTextField yElementsTxt;
 	private int xElements;
 	private int yElements;
 	private JButton btnMesh;
-	private JButton btnCount;
-	private int Count = 0;
+	private InfoModel modeldb;
 	private JPanel drawingUniverse;
 	
-	private Point firstPoint = null;
-	private Point secondPoint = null;
+
 	
 }

@@ -9,11 +9,11 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
-
-import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
+
+import db.InfoModel;
 
 public class DrawingUniverse extends JPanel {
 
@@ -25,21 +25,13 @@ public class DrawingUniverse extends JPanel {
 	private ArrayList<MyDrawingComponents> myComponents = new ArrayList<>();
 	
 	public DrawingUniverse() {
+		modeldb = InfoModel.getInstance();
 		this.addMouseListener(new MouseListener() {
 			
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				// TODO Auto-generated method stub
-				String infoMessage = "Mouse Clicked in Universe";
-				String titleBar = "Mouse Event Informer";
-			//	JOptionPane.showMessageDialog(null, infoMessage, "InfoBox: " + titleBar, JOptionPane.INFORMATION_MESSAGE);
-				System.out.println("InfoBox: " + titleBar +"\n"+"\t"+infoMessage);
-				if(isDomain) {
-					Rectangle selRect = new Rectangle(arg0.getX()-5,arg0.getY()-5,10,10);
-					for(Point p: myComponents.get(0).getCorners())
-						if(selRect.contains(p))
-							JOptionPane.showMessageDialog(null, infoMessage + " Point (" +p.x +","+p.y+")" , "InfoBox: " + titleBar, JOptionPane.INFORMATION_MESSAGE);
-				}
+
 			}
 
 			@Override
@@ -68,6 +60,18 @@ public class DrawingUniverse extends JPanel {
 				String titleBar = "Mouse Event Informer";
 			//	JOptionPane.showMessageDialog(null, infoMessage, "InfoBox: " + titleBar, JOptionPane.INFORMATION_MESSAGE);
 				
+				
+			//	JOptionPane.showMessageDialog(null, infoMessage, "InfoBox: " + titleBar, JOptionPane.INFORMATION_MESSAGE);
+				System.out.println("InfoBox: " + titleBar +"\n"+"\t"+infoMessage);
+				if(isDomain) {
+					infoMessage = "Mouse Clicked in Universe";
+					
+					Rectangle selRect = new Rectangle(arg0.getX()-5,arg0.getY()-5,10,10);
+					for(Point p: myComponents.get(0).getCorners())
+						if(selRect.contains(p))
+							JOptionPane.showMessageDialog(null, infoMessage + " Point (" +p.x +","+p.y+")" , "InfoBox: " + titleBar, JOptionPane.INFORMATION_MESSAGE);
+				}
+				
 				if(!isDomain) {
 				System.out.println("InfoBox: " + titleBar +"\n"+"\t"+infoMessage);
 				if(firstPoint == null)
@@ -81,6 +85,8 @@ public class DrawingUniverse extends JPanel {
 					Rectangle rect = new Rectangle(Math.min(firstPoint.x,secondPoint.x),Math.min(firstPoint.y,secondPoint.y),width,height);
 					MyDrawingComponents myDrawingComponent = new MyDrawingComponents(rect);
 					myComponents.add(myDrawingComponent);
+					modeldb.setDomain(rect);
+					modeldb.addCommand("Domain created.");
 					isDomain = true;
 					firstPoint = null;
 					secondPoint = null;
@@ -90,7 +96,8 @@ public class DrawingUniverse extends JPanel {
 				}
 				
 					
-				}else if(SwingUtilities.isRightMouseButton(arg0)) {
+				}
+				else if(SwingUtilities.isRightMouseButton(arg0)) {
 					String infoMessage = "Right Mouse Pressed in Universe";
 					String titleBar = "Mouse Event Informer";
 				//	JOptionPane.showMessageDialog(null, infoMessage, "InfoBox: " + titleBar, JOptionPane.INFORMATION_MESSAGE);
@@ -121,7 +128,6 @@ public class DrawingUniverse extends JPanel {
 				String titleBar = "Mouse Motion Informer";
 				System.out.println("InfoBox: " + titleBar +"\n"+"\t"+infoMessage);
 				System.out.println("\t X-Coord : " + e.getX() + "-- Y-Coord : "+e.getY());
-				drawColor = Color.BLACK;
 				if(firstPoint != null) {
 					secondPoint = new Point(e.getX(),e.getY());
 					repaint();
@@ -184,8 +190,8 @@ public class DrawingUniverse extends JPanel {
 
 	private Point firstPoint = null;
 	private Point secondPoint = null;
-	private Color drawColor = Color.BLACK;
 	private boolean isDomain = false;
+	private InfoModel modeldb = null;
 	// For Visual Dbg MessageBox Set
 	//	JOptionPane.showMessageDialog(null, infoMessage, "InfoBox: " + titleBar, JOptionPane.INFORMATION_MESSAGE);
 
