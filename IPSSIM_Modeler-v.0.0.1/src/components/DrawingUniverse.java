@@ -9,6 +9,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
+
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
@@ -25,7 +27,8 @@ public class DrawingUniverse extends JPanel {
 	
 	private ArrayList<MyDrawingComponents> myComponents = new ArrayList<>();
 	
-	public DrawingUniverse() {
+	public DrawingUniverse(JLabel status) {
+		super();
 		modeldb = InfoModel.getInstance();
 		this.addMouseListener(new MouseListener() {
 			
@@ -70,7 +73,7 @@ public class DrawingUniverse extends JPanel {
 					Rectangle selRect = new Rectangle(arg0.getX()-5,arg0.getY()-5,10,10);
 					for(Point p: myComponents.get(0).getCorners()) {
 						if(selRect.contains(p)) {
-							MyPopupFrame mf =  new MyPopupFrame(arg0.getXOnScreen(),arg0.getYOnScreen());
+							MyPopupFrame mf =  new MyPopupFrame(arg0.getXOnScreen(),arg0.getYOnScreen(),p);
 							mf.setVisible(true);
 							MainGUI.getInstance().getContentPane().add(mf);
 							 try {
@@ -134,8 +137,9 @@ public class DrawingUniverse extends JPanel {
 			@Override
 			public void mouseMoved(MouseEvent e) {
 				// TODO Auto-generated method stub
-				String infoMessage = "Mouse Is Moving";
-				String titleBar = "Mouse Motion Informer";
+				String infoMessage = "Mouse Is Moving ";
+				String titleBar = "Mouse Motion Informer ";
+				status.setText("Status -> InfoBox: " + titleBar +"\t"+infoMessage + "\t X-Coord : " + e.getX() + " -- Y-Coord : "+e.getY());
 				System.out.println("InfoBox: " + titleBar +"\n"+"\t"+infoMessage);
 				System.out.println("\t X-Coord : " + e.getX() + "-- Y-Coord : "+e.getY());
 				if(firstPoint != null) {

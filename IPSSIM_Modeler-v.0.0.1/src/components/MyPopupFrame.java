@@ -1,6 +1,7 @@
 package components;
 
 import java.awt.Dimension;
+import java.awt.Point;
 
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
@@ -14,10 +15,9 @@ public class MyPopupFrame extends JInternalFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public MyPopupFrame(int x,int y) {
-		super("Test",true,true,true,true);
-		this.setPreferredSize(new Dimension(200,100));
-		this.setBounds(10,10,200,100);
+	public MyPopupFrame(int x,int y,Point p) {
+		super("Test",false,true,false,false);
+	//	this.setBounds(10,10,218,223);
 		JPanel jPanel = new JPanel();
 		 JLabel jLabel1 = new JLabel("Node Number            :");
 		 JLabel jLabel2 =  new JLabel("Node X - Coordinate :");
@@ -25,9 +25,9 @@ public class MyPopupFrame extends JInternalFrame {
 		 JLabel jLabel4 =  new JLabel("000000");
 		 JTextField jTextField2 = new JTextField();
 		 JTextField jTextField3 = new JTextField();
-	        jTextField2.setText("000000");
+	        jTextField2.setText(Integer.toString(p.x));
 	
-	        jTextField3.setText("000000");
+	        jTextField3.setText(Integer.toString(p.y));
 
 	
 
@@ -66,7 +66,7 @@ public class MyPopupFrame extends JInternalFrame {
 	                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 	        );
 		
-		add(jPanel);
+		getContentPane().add(jPanel);
 		pack();
 		setLocation(x,y);
 	}
