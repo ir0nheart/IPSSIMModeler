@@ -14,6 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import db.InfoModel;
+import gui.MainGUI;
 
 public class DrawingUniverse extends JPanel {
 
@@ -67,9 +68,18 @@ public class DrawingUniverse extends JPanel {
 					infoMessage = "Mouse Clicked in Universe";
 					
 					Rectangle selRect = new Rectangle(arg0.getX()-5,arg0.getY()-5,10,10);
-					for(Point p: myComponents.get(0).getCorners())
-						if(selRect.contains(p))
-							JOptionPane.showMessageDialog(null, infoMessage + " Point (" +p.x +","+p.y+")" , "InfoBox: " + titleBar, JOptionPane.INFORMATION_MESSAGE);
+					for(Point p: myComponents.get(0).getCorners()) {
+						if(selRect.contains(p)) {
+							MyPopupFrame mf =  new MyPopupFrame(arg0.getXOnScreen(),arg0.getYOnScreen());
+							mf.setVisible(true);
+							MainGUI.getInstance().getContentPane().add(mf);
+							 try {
+						            mf.setSelected(true);
+						        } catch (java.beans.PropertyVetoException e) {}
+							 
+						//	JOptionPane.showMessageDialog(null, infoMessage + " Point (" +p.x +","+p.y+")" , "InfoBox: " + titleBar, JOptionPane.INFORMATION_MESSAGE);
+						}
+					}
 				}
 				
 				if(!isDomain) {
